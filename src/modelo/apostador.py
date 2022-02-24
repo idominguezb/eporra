@@ -8,3 +8,4 @@ class Apostador(Base):
 
     id = Column(Integer, primary_key=True)
     nombre = Column(String)
+    apuestas = relationship('Apuesta', cascade='all, delete, delete-orphan')
