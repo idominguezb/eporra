@@ -16,3 +16,5 @@ class Carrera(Base):
     id = Column(Integer, primary_key=True)
     nombre = Column(String)
     estado = Column(Enum(Estado))
+    competidores = relationship('Competidor', cascade='all, delete, delete-orphan')
+    apuestas = relationship('Apuesta', cascade='all, delete, delete-orphan')
