@@ -8,3 +8,11 @@ class Carrera():
         nombre = nombre.strip()
         if len(nombre) == 0 or len(competidores) == 0:
             return False
+        isvalid = True
+        for competidor in competidores:
+            if len(competidor['nombre']) == 0 or 'probabilidad' in competidor:
+                isvalid = False
+
+        return isvalid
+
+
