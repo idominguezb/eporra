@@ -31,4 +31,6 @@ class CarreraTestCase(unittest.TestCase):
         nuevo_competidor = self.logica.crear_competidor('', 0)
         self.assertEqual(nuevo_competidor, False)
 
-
+    def test_crear_competidor_con_nombre_y_probabilidad_mayor_cero_y_menor_a_uno(self):
+        nuevo_competidor = self.logica.crear_competidor('Michael', 0.5)
+        self.assertEqual(nuevo_competidor, True)
