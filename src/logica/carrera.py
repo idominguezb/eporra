@@ -5,6 +5,5 @@ class Carrera():
         Base.metadata.create_all(engine)
 
     def crear_carrera(self, nombre, competidores):
-        return None
-
-
+        if len(nombre) == 0 and len(competidores) == 0:
+            return False
