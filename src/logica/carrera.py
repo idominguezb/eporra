@@ -15,4 +15,7 @@ class Carrera():
 
         return isvalid
 
+    def crear_competidor(self, nombre, probabilidad):
+        return True
+
 
