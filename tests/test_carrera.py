@@ -2,24 +2,17 @@ import unittest
 import random
 from src.modelo.carrera import Carrera
 from src.modelo.declarative_base import Session
-from src.logica.Logica_mock import Logica_mock
+from src.logica.carrera import Carrera
 
 
 class CarreraTestCase(unittest.TestCase):
-    def test_prueba(self):
-        self.assertEquals(0, 0)
 
-    def setUp(self) -> None:
-        self.logica = Logica_mock()
+    def setUp(self):
+        self.logica = Carrera()
 
-    def test_crearCarrera(self):
-        self.logica.crear_carrera('Carrera Formula 1')
-        print(len(self.logica.carreras))
+    def test_crear_carrera_sin_nombre_sin_competidores(self):
+        nueva_carrera = self.logica.crear_carrera('', [])
+        self.assertEqual(nueva_carrera, False)
 
-    def test_listarCarreras(self):
-        res = self.logica.dar_carreras()
-        self.assertEquals(len(res), 2)
 
-    def tearDown(self) -> None:
-        self.session = Session()
 
