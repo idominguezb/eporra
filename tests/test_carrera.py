@@ -28,7 +28,7 @@ class CarreraTestCase(unittest.TestCase):
         self.assertEqual(nueva_carrera, False)
 
     def test_crear_competidor_sin_nombre_con_probabilidad_cero(self):
-        nuevo_competidor = self.logica.crear_competidor('', '')
+        nuevo_competidor = self.logica.crear_competidor('', 0)
         self.assertEqual(nuevo_competidor, False)
 
 
