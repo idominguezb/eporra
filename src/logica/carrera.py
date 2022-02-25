@@ -17,6 +17,10 @@ class Carrera():
 
     def crear_competidor(self, nombre, probabilidad):
         nombre = nombre.strip()
+
+        if isinstance(probabilidad, str):
+            return False
+
         if len(nombre) == 0 or (probabilidad < 0 and probabilidad > 1):
             return False
 
