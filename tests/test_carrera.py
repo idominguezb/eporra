@@ -14,5 +14,6 @@ class CarreraTestCase(unittest.TestCase):
         nueva_carrera = self.logica.crear_carrera('', [])
         self.assertEqual(nueva_carrera, False)
 
-
-
+    def test_crear_carrera_con_espacios_en_blanco_en_el_nombre_y_sin_competidores(self):
+        nueva_carrera = self.logica.crear_carrera('           ', [])
+        self.assertEqual(nueva_carrera, False)
