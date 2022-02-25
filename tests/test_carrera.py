@@ -21,3 +21,8 @@ class CarreraTestCase(unittest.TestCase):
     def test_crear_carrera_con_nombre_sin_competidores(self):
         nueva_carrera = self.logica.crear_carrera('Carrera Indianapolis', [])
         self.assertEqual(nueva_carrera, False)
+
+    def test_crear_carrera_con_nombre_y_con_un_competidor_con_nombre_vacio_y_sin_probabilidad(self):
+        competidores = [{ "nombre": "" }]
+        nueva_carrera = self.logica.crear_carrera('Carrera Indianapolis', competidores)
+        self.assertEqual(nueva_carrera, False)
