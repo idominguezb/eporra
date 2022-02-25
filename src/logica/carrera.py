@@ -6,5 +6,5 @@ class Carrera():
 
     def crear_carrera(self, nombre, competidores):
         nombre = nombre.strip()
-        if len(nombre) == 0 and len(competidores) == 0:
+        if len(nombre) == 0 or len(competidores) == 0:
             return False
