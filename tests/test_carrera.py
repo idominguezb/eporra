@@ -1,11 +1,13 @@
 import unittest
 import random
-from src.modelo.declarative_base import Session
+from src.modelo.declarative_base import Base, engine
 from src.logica.Logica import Logica
+
 class CarreraTestCase(unittest.TestCase):
 
     def setUp(self):
         self.logica = Logica()
+        Base.metadata.create_all(engine)
 
     def test_crear_carrera_con_nombre_en_blanco(self):
         nueva_carrera = self.logica.crear_carrera('')
@@ -14,3 +16,6 @@ class CarreraTestCase(unittest.TestCase):
     def test_crear_carrera(self):
         nueva_carrera = self.logica.crear_carrera('Carrera 1')
         self.assertEqual(nueva_carrera, True)
+
+    def tearDown(self):
+        Base.metadata.drop_all(engine)
