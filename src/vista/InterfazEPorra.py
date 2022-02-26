@@ -16,16 +16,16 @@ class App_EPorra(QApplication):
         Constructor de la interfaz. Debe recibir la lógica e iniciar la aplicación en la ventana principal.
         """
         super(App_EPorra, self).__init__(sys_argv)
-        
+
         self.logica = logica
         self.mostrar_vista_lista_carreras()
-        
-        
+
+
     def mostrar_vista_lista_carreras(self):
         """
         Esta función inicializa la ventana de la lista de carreras
         """
-        self.vista_lista_carreras = Vista_lista_carreras(self) 
+        self.vista_lista_carreras = Vista_lista_carreras(self)
         self.vista_lista_carreras.mostrar_carreras(self.logica.dar_carreras())
 
     def guardar_carrera(self, nombre):
@@ -51,27 +51,27 @@ class App_EPorra(QApplication):
         Esta función inserta un nuevo competidor en la carrera actual
         """
         self.logica.aniadir_competidor(self.carrera_actual, nombre, probabilidad)
-           
+
     def editar_competidor(self, id_competidor, nombre, probabilidad):
         """
         Esta función edita la información de un competidor en una carrera
         """
         self.logica.editar_competidor(self.carrera_actual, id_competidor, nombre, probabilidad)
-    
+
     def eliminar_competidor(self, id_competidor):
         """
         Esta función elimina un competidor de una carrera
         """
         if self.carrera_actual!=-1:
             self.logica.eliminar_competidor(self.carrera_actual, id_competidor)
-        
+
     def aniadir_apostador(self, nombre):
         """
         Esta función inserta un apostador a la aplicación
         """
         self.logica.aniadir_apostador(nombre)
         self.vista_lista_apostadores.mostrar_apostadores(self.logica.dar_apostadores())
-        
+
     def editar_apostador(self, id, nombre):
         """
         Esta función edita la información de un apostador
@@ -154,7 +154,7 @@ class App_EPorra(QApplication):
         print(resultado)
         nombre_carrera = self.logica.dar_carrera(self.carrera_actual)['Nombre']
         self.vista_lista_apuestas.mostrar_apuestas(nombre_carrera, self.logica.dar_apuestas_carrera(self.carrera_actual))
-    
+
     def mostrar_carrera(self, id_carrera=-1):
         """
         Esta función muestra una carrera en la ventana de carreras
@@ -172,7 +172,6 @@ class App_EPorra(QApplication):
         """
         Esta función inserta un nuevo competidor en una carrera
         """
-        self.logica.aniadir_competidor(self.carrera_actual, nombre, probabilidad)
+        self.logica.aniadir_competidor(nombre, probabilidad)
         nombre_carrera = self.logica.dar_carrera(self.carrera_actual)['Nombre']
         self.vista_carrera.mostrar_competidores(nombre_carrera, self.logica.dar_competidores_carrera(self.carrera_actual))
-

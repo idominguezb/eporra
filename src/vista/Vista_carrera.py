@@ -12,19 +12,19 @@ class Vista_carrera(QWidget):
     def __init__(self,principal):
         """
         Constructor de la ventana
-        """   
+        """
         super().__init__()
 
         self.titulo = ''
         self.setAttribute(Qt.WA_DeleteOnClose)
 
-        self.interfaz=principal            
+        self.interfaz=principal
 
         self.width = 720
         self.height = 550
         self.inicializar_GUI()
         self.show()
-       
+
 
     def inicializar_GUI(self):
 
@@ -41,7 +41,7 @@ class Vista_carrera(QWidget):
         self.distribuidor_base.addWidget(self.widget_nombre, Qt.AlignTop)
 
         etiqueta_nombre=QLabel("Nombre")
-        self.distribuidor_nombre.addWidget(etiqueta_nombre)                
+        self.distribuidor_nombre.addWidget(etiqueta_nombre)
 
         self.texto_nombre=QLineEdit(self)
         self.distribuidor_nombre.addWidget(self.texto_nombre)
@@ -51,7 +51,7 @@ class Vista_carrera(QWidget):
         self.contenedor_tabla.setTitle('Competidores')
         self.distribuidor_base.addWidget(self.contenedor_tabla)
 
-        #Creación de la tabla en donde se mostrarán los competidores 
+        #Creación de la tabla en donde se mostrarán los competidores
         self.tabla_actividades = QScrollArea(self)
         self.tabla_actividades.setFixedSize(600, 400)
         self.tabla_actividades.setStyleSheet('''
@@ -64,15 +64,15 @@ class Vista_carrera(QWidget):
 
 
         etiqueta_nombre = QLabel("\tNombre")
-        etiqueta_nombre.setFont(QFont("Times",weight=QFont.Bold)) 
+        etiqueta_nombre.setFont(QFont("Times",weight=QFont.Bold))
         self.distribuidor_actividades.addWidget(etiqueta_nombre, 0, 0, Qt.AlignTop)
 
         etiqueta_fecha = QLabel("Probabilidad")
-        etiqueta_fecha.setFont(QFont("Times",weight=QFont.Bold)) 
+        etiqueta_fecha.setFont(QFont("Times",weight=QFont.Bold))
         self.distribuidor_actividades.addWidget(etiqueta_fecha, 0, 1, Qt.AlignCenter|Qt.AlignTop)
 
         etiqueta_accion = QLabel("Acciones")
-        etiqueta_accion.setFont(QFont("Times",weight=QFont.Bold)) 
+        etiqueta_accion.setFont(QFont("Times",weight=QFont.Bold))
         self.distribuidor_actividades.addWidget(etiqueta_accion, 0, 2, 0, 2, alignment=Qt.AlignCenter|Qt.AlignTop)
 
         #Creación de la caja con los botones
@@ -108,10 +108,10 @@ class Vista_carrera(QWidget):
     def mostrar_competidores(self, nombre_carrera, competidores):
         """
         Esta función puebla los competidores de una carrera
-        """   
-        
+        """
+
         self.competidores = competidores
-        
+
         self.titulo='E-Porra - Detalle de {}'.format(nombre_carrera)
         self.setWindowTitle(self.titulo)
         self.texto_nombre.setText(nombre_carrera)
@@ -134,7 +134,7 @@ class Vista_carrera(QWidget):
             self.btn_guardar_carrera.setEnabled(True)
 
         numero_fila=1
-        
+
         #Ciclo para llenar los gastos
         for competidor in self.competidores:
 
@@ -168,7 +168,7 @@ class Vista_carrera(QWidget):
             self.distribuidor_actividades.addWidget(btn_eliminar, numero_fila, 3)
 
             numero_fila=numero_fila+1
-        
+
         #Elemento para ajustar la forma de la tabla (y evitar que queden muy espaciados)
         elemento_de_espacio = QSpacerItem(140, 360-numero_fila*40 if numero_fila*40<=360 else 0, QSizePolicy.Expanding, QSizePolicy.Minimum)
         self.distribuidor_actividades.addItem(elemento_de_espacio, numero_fila, 0, 1, 3)
@@ -177,13 +177,13 @@ class Vista_carrera(QWidget):
     def eliminar_competidor(self, indice_competidor):
         """
         Esta función es para eliminar un competidor
-        """    
+        """
         mensaje_confirmacion=QMessageBox()
         mensaje_confirmacion.setIcon(QMessageBox.Question)
-        mensaje_confirmacion.setText("¿Esta seguro de que desea eliminar este competidor?\nRecuerde que esta acción es irreversible")        
+        mensaje_confirmacion.setText("¿Esta seguro de que desea eliminar este competidor?\nRecuerde que esta acción es irreversible")
         mensaje_confirmacion.setWindowTitle("¿Desea borrar este competidor?")
         mensaje_confirmacion.setWindowIcon(QIcon("src/recursos/smallLogo.png"))
-        mensaje_confirmacion.setStandardButtons(QMessageBox.Yes | QMessageBox.No ) 
+        mensaje_confirmacion.setStandardButtons(QMessageBox.Yes | QMessageBox.No )
         respuesta=mensaje_confirmacion.exec_()
         if respuesta == QMessageBox.Yes:
             self.interfaz.eliminar_competidor(indice_competidor)
@@ -193,25 +193,25 @@ class Vista_carrera(QWidget):
     def volver(self):
         """
         Esta función permite volver a la lista de carreras
-        """    
+        """
         self.hide()
         self.interfaz.mostrar_vista_lista_carreras()
 
-    
+
     def aniadir_competidor(self):
         """
         Esta función ejecuta el diálogo para crear un competidor
-        """    
+        """
         dialogo = Dialogo_crear_competidor()
         dialogo.exec_()
         if dialogo.resultado == 1:
             self.competidores.append({'Nombre':dialogo.texto_nombre.text(), 'Probabilidad':float(dialogo.texto_probabilidad.text()), 'Estado':'Nueva'})
             self.mostrar_competidores(self.texto_nombre.text(), self.competidores)
-    
+
     def editar_competidor(self, indice_competidor):
         """
         Esta función ejecuta el diálogo para editar un competidor
-        """    
+        """
         dialogo = Dialogo_crear_competidor(self.competidores[indice_competidor])
         dialogo.exec_()
         if dialogo.resultado == 1:
@@ -219,16 +219,18 @@ class Vista_carrera(QWidget):
             self.competidores[indice_competidor]['Probabilidad'] = float(dialogo.texto_probabilidad.text())
             self.competidores[indice_competidor]['Estado'] = self.competidores[indice_competidor].get('Estado', 'Editada')
             self.mostrar_competidores(self.texto_nombre.text(), self.competidores)
-   
+
     def guardar_cambios(self):
         """
         Esta función guarda los cambios a la carrera (editando o guardando los nuevos competidores)
-        """    
-        self.interfaz.guardar_carrera(self.texto_nombre.text())
+        """
         for i, competidor in enumerate(self.competidores):
             if competidor.get('Estado') == 'Nueva':
                 self.interfaz.aniadir_competidor(competidor['Nombre'], competidor['Probabilidad'])
             else:
                 self.interfaz.editar_competidor(i, competidor['Nombre'], competidor['Probabilidad'])
+
+        print("self.texto_nombre.text()", self.texto_nombre.text())
+        self.interfaz.guardar_carrera(self.texto_nombre.text())
         self.hide()
         self.interfaz.mostrar_vista_lista_carreras()
