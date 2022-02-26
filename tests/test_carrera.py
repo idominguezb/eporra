@@ -17,5 +17,9 @@ class CarreraTestCase(unittest.TestCase):
         nueva_carrera = self.logica.crear_carrera('Carrera 1')
         self.assertEqual(nueva_carrera, True)
 
+    def test_crear_carrera_con_nombre_existente(self):
+        nueva_carrera = self.logica.crear_carrera('Carrera 1')
+        self.assertEqual(nueva_carrera, False)
+
     def tearDown(self):
         Base.metadata.drop_all(engine)
