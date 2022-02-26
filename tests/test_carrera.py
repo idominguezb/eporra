@@ -23,6 +23,33 @@ class CarreraTestCase(unittest.TestCase):
         nueva_carrera = self.logica.crear_carrera('Carrera 1')
         self.assertEqual(nueva_carrera, False)
 
+    def test_validar_suma_probabilidades_igual_uno(self):
+        competidoresFail = [{
+            "Nombre": "Michael Shummy",
+            "Probilidad": "1"
+        },
+        {
+            "Nombre": "Ronny Stand",
+            "Probilidad": "0.8"
+        }
+        ]
+
+        competidoresSuccess = [{
+            "Nombre": "Michael Shummy",
+            "Probilidad": "0.5"
+        },
+        {
+            "Nombre": "Ronny Stand",
+            "Probilidad": "0.5"
+        }
+        ]
+
+        competidoresNoValidos = self.logica.validar_competidores(competidoresFail)
+        competidoresValidos = self.logica.validar_competidores(competidoresSuccess)
+        self.assertEqual(competidoresNoValidos, False)
+        self.assertEqual(competidoresValidos, True)
+
+
     @classmethod
     def tearDownClass(self):
         Base.metadata.drop_all(engine)
