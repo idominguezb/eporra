@@ -178,3 +178,4 @@ class App_EPorra(QApplication):
         self.logica.aniadir_competidor(nombre, probabilidad)
         nombre_carrera = self.logica.dar_carrera(self.carrera_actual)['Nombre']
         self.vista_carrera.mostrar_competidores(nombre_carrera, self.logica.dar_competidores_carrera(self.carrera_actual))
+

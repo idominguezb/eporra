@@ -171,3 +171,21 @@ class Logica():
         for ganancias in self.ganancias:
             if ganancias['Carrera'] == n_carrera:
                 return ganancias['Ganancias'], ganancias['Ganancias de la casa']
+
+    
+    def validar_competidores(self, competidores):
+        totalProbabilidad = 0
+    
+        for item in competidores:
+            totalProbabilidad += float(item["Probabilidad"])
+        
+        if not totalProbabilidad == 1:
+            return False
+
+        return True
+
+        
+
+
+
+

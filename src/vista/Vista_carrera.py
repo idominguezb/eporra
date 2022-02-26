@@ -4,6 +4,7 @@ from PyQt5.QtCore import *
 
 from functools import partial
 from .Vista_crear_competidor import Dialogo_crear_competidor
+from src.logica.logica import Logica
 
 
 class Vista_carrera(QWidget):
@@ -19,6 +20,7 @@ class Vista_carrera(QWidget):
         self.setAttribute(Qt.WA_DeleteOnClose)
 
         self.interfaz=principal
+        self.logica = Logica;
 
         self.width = 720
         self.height = 550
@@ -205,11 +207,17 @@ class Vista_carrera(QWidget):
         dialogo = Dialogo_crear_competidor()
         dialogo.exec_()
 
-        if not dialogo.texto_probabilidad.text().isnumeric():
+        try:
+            float(dialogo.texto_probabilidad.text())
+        except:
             QMessageBox.about(self, "Error validacion", "La probabilidad debe ser un numero")
             dialogo.resultado = 0
 
-        if dialogo.resultado == 1:
+        if float(dialogo.texto_probabilidad.text()) < 0:
+            QMessageBox.about(self, "Error validacion", "La probabilidad no debe ser negativa")
+            dialogo.resultado = 0
+
+        if dialogo.resultado == 1:  
             self.competidores.append({'Nombre':dialogo.texto_nombre.text(), 'Probabilidad':float(dialogo.texto_probabilidad.text()), 'Estado':'Nueva'})
             self.mostrar_competidores(self.texto_nombre.text(), self.competidores)
 
@@ -229,6 +237,12 @@ class Vista_carrera(QWidget):
         """
         Esta función guarda los cambios a la carrera (editando o guardando los nuevos competidores)
         """
+
+        valido = self.logica.validar_competidores(self, self.competidores)
+
+        if not valido:
+            QMessageBox.about(self, "Error validacion", "La suma de las probabilidades no debe superar 1")
+            return 
 
         self.interfaz.guardar_carrera(self.texto_nombre.text())
 
