@@ -1,40 +1,12 @@
 import unittest
 import random
-from src.modelo.carrera import Carrera
 from src.modelo.declarative_base import Session
-from src.logica.carrera import Carrera
-
-
+from src.logica.Logica import Logica
 class CarreraTestCase(unittest.TestCase):
 
     def setUp(self):
-        self.logica = Carrera()
+        self.logica = Logica()
 
-    def test_crear_carrera_sin_nombre_sin_competidores(self):
-        nueva_carrera = self.logica.crear_carrera('', [])
+    def test_crear_carrera_con_nombre_en_blanco(self):
+        nueva_carrera = self.logica.crear_carrera('')
         self.assertEqual(nueva_carrera, False)
-
-    def test_crear_carrera_con_espacios_en_blanco_en_el_nombre_y_sin_competidores(self):
-        nueva_carrera = self.logica.crear_carrera('           ', [])
-        self.assertEqual(nueva_carrera, False)
-
-    def test_crear_carrera_con_nombre_sin_competidores(self):
-        nueva_carrera = self.logica.crear_carrera('Carrera Indianapolis', [])
-        self.assertEqual(nueva_carrera, False)
-
-    def test_crear_carrera_con_nombre_y_con_un_competidor_con_nombre_vacio_y_sin_probabilidad(self):
-        competidores = [{ "nombre": "" }]
-        nueva_carrera = self.logica.crear_carrera('Carrera Indianapolis', competidores)
-        self.assertEqual(nueva_carrera, False)
-
-    def test_crear_competidor_sin_nombre_con_probabilidad_cero(self):
-        nuevo_competidor = self.logica.crear_competidor('', 0)
-        self.assertEqual(nuevo_competidor, False)
-
-    def test_crear_competidor_con_nombre_y_probabilidad_mayor_cero_y_menor_a_uno(self):
-        nuevo_competidor = self.logica.crear_competidor('Michael', 0.5)
-        self.assertEqual(nuevo_competidor, True)
-
-    def test_crear_competidor_con_nombre_y_probabilidad_como_cadena(self):
-        nuevo_competidor = self.logica.crear_competidor('Michael', '0.5')
-        self.assertEqual(nuevo_competidor, False)

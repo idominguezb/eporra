@@ -1,5 +1,5 @@
-from PyQt5.QtWidgets import * 
-from PyQt5.QtGui import * 
+from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from functools import partial
 
@@ -15,38 +15,38 @@ class Vista_lista_carreras(QWidget):
         Constructor de la ventanas
         """
         super().__init__()
-        
+
         self.interfaz=interfaz
-       
+
         #Se establecen las características de la ventana
         self.title = 'Cuentas Claras'
         self.width = 720
-        self.height = 750      
+        self.height = 750
         self.inicializar_GUI()
 
     def inicializar_GUI(self):
-        
+
         #inicializamos la ventana
         self.setWindowTitle(self.title)
         self.setFixedSize(self.width, self.height)
         self.setWindowIcon(QIcon("src/recursos/smallLogo.png"))
-         
+
         self.distribuidor_base = QVBoxLayout(self)
 
         #Creación del logo de encabezado
         self.logo=QLabel(self)
-        self.pixmap = QPixmap("src/recursos/EporraHeader.png")    
-        self.pixmap = self.pixmap.scaled(400,150, Qt.KeepAspectRatio)    
+        self.pixmap = QPixmap("src/recursos/EporraHeader.png")
+        self.pixmap = self.pixmap.scaled(400,150, Qt.KeepAspectRatio)
         self.logo.setPixmap(self.pixmap)
         self.logo.setAlignment(Qt.AlignCenter)
         self.distribuidor_base.addWidget(self.logo,alignment=Qt.AlignCenter)
 
         #Creación de las etiquetsa con textos de bienvenida
-        self.etiqueta_bienvenida=QLabel("!!Bienvenido a E-Porra!!")                               
+        self.etiqueta_bienvenida=QLabel("!!Bienvenido a E-Porra!!")
         self.etiqueta_bienvenida.setAlignment(Qt.AlignCenter)
         self.distribuidor_base.addWidget(self.etiqueta_bienvenida,Qt.AlignCenter)
-        
-        self.etiqueta_descripcion=QLabel("La manera más fácil y divertida de apostar")                               
+
+        self.etiqueta_descripcion=QLabel("La manera más fácil y divertida de apostar")
         self.etiqueta_descripcion.setAlignment(Qt.AlignCenter)
         self.distribuidor_base.addWidget(self.etiqueta_descripcion,Qt.AlignCenter)
 
@@ -58,7 +58,7 @@ class Vista_lista_carreras(QWidget):
         #Creación de los botones
         self.btn_aniadir_actividad=QPushButton("Añadir Carrera",self)
         self.btn_aniadir_actividad.setFixedSize(200,40)
-        self.btn_aniadir_actividad.setToolTip("Añadir Carrera")                
+        self.btn_aniadir_actividad.setToolTip("Añadir Carrera")
         self.btn_aniadir_actividad.setIcon(QIcon("src/recursos/006-add.png"))
         self.btn_aniadir_actividad.setIconSize(QSize(120,120))
         self.distribuidor_botones.addWidget(self.btn_aniadir_actividad,0,0,Qt.AlignLeft)
@@ -66,11 +66,11 @@ class Vista_lista_carreras(QWidget):
 
         self.btn_ver_viajeros=QPushButton("Ver Apostadores",self)
         self.btn_ver_viajeros.setFixedSize(200,40)
-        self.btn_ver_viajeros.setToolTip("Ver Apostadores")                
+        self.btn_ver_viajeros.setToolTip("Ver Apostadores")
         self.btn_ver_viajeros.setIcon(QIcon("src/recursos/010-people-24.png"))
-        self.btn_ver_viajeros.setIconSize(QSize(120,120))                
+        self.btn_ver_viajeros.setIconSize(QSize(120,120))
         self.btn_ver_viajeros.clicked.connect(self.mostrar_apostadores)
-        self.distribuidor_botones.addWidget(self.btn_ver_viajeros,0,1,Qt.AlignRight)        
+        self.distribuidor_botones.addWidget(self.btn_ver_viajeros,0,1,Qt.AlignRight)
         self.distribuidor_base.addWidget(self.widget_botones,Qt.AlignCenter)
 
         #Creación del área con la información de las carreras
@@ -78,8 +78,8 @@ class Vista_lista_carreras(QWidget):
         self.tabla_carreras.setWidgetResizable(True)
         self.tabla_carreras.setFixedSize(700, 450)
         self.widget_tabla_actividades = QWidget()
-        self.distribuidor_tabla_carreras = QGridLayout()        
-        self.widget_tabla_actividades.setLayout(self.distribuidor_tabla_carreras);                
+        self.distribuidor_tabla_carreras = QGridLayout()
+        self.widget_tabla_actividades.setLayout(self.distribuidor_tabla_carreras);
         self.tabla_carreras.setWidget(self.widget_tabla_actividades)
         self.distribuidor_base.addWidget(self.tabla_carreras)
 
@@ -106,31 +106,32 @@ class Vista_lista_carreras(QWidget):
         self.distribuidor_tabla_carreras.setColumnStretch(4,0)
         self.distribuidor_tabla_carreras.setColumnStretch(4,0)
 
+        numero_fila=0
         #Ciclo para llenar la tabla
         if (self.carreras!= None and len(self.carreras)>0) :
             self.tabla_carreras.setVisible(True)
 
             #Creación de las etiquetas
 
-            etiqueta_nombre=QLabel("Nombre")                      
+            etiqueta_nombre=QLabel("Nombre")
             etiqueta_nombre.setMinimumSize(QSize(0,0))
             etiqueta_nombre.setMaximumSize(QSize(65525,65525))
             etiqueta_nombre.setAlignment(Qt.AlignCenter)
-            etiqueta_nombre.setFont(QFont("Times",weight=QFont.Bold)) 
+            etiqueta_nombre.setFont(QFont("Times",weight=QFont.Bold))
             self.distribuidor_tabla_carreras.addWidget(etiqueta_nombre, 0,0, Qt.AlignCenter)
 
-            etiqueta_acciones=QLabel("Acciones")                      
+            etiqueta_acciones=QLabel("Acciones")
             etiqueta_acciones.setMinimumSize(QSize(0,0))
             etiqueta_acciones.setMaximumSize(QSize(65525,65525))
             etiqueta_acciones.setAlignment(Qt.AlignCenter)
-            etiqueta_acciones.setFont(QFont("Times",weight=QFont.Bold))               
+            etiqueta_acciones.setFont(QFont("Times",weight=QFont.Bold))
             self.distribuidor_tabla_carreras.addWidget(etiqueta_acciones, 0,1,1,5, Qt.AlignCenter)
-       
+
             numero_fila=0
             for dic_carrera in self.carreras:
                 numero_fila=numero_fila+1
 
-                etiqueta_nombre=QLabel(dic_carrera['Nombre'])          
+                etiqueta_nombre=QLabel(dic_carrera['Nombre'])
                 etiqueta_nombre.setWordWrap(True)
                 self.distribuidor_tabla_carreras.addWidget(etiqueta_nombre,numero_fila,0)
 
@@ -179,7 +180,7 @@ class Vista_lista_carreras(QWidget):
         """
         Esta función informa a la interfaz para terminar una carrera
         """
-        
+
         self.interfaz.carrera_actual = id_carrera
         dialogo = Dialogo_terminar_carrera(self.interfaz.dar_competidores())
         dialogo.exec_()
@@ -187,13 +188,13 @@ class Vista_lista_carreras(QWidget):
             self.hide()
             self.interfaz.mostrar_reporte_ganancias(dialogo.combobox_competidores.currentData())
 
-    def mostrar_carrera(self,id_carrera): 
+    def mostrar_carrera(self,id_carrera):
         """
         Esta función informa a la interfaz para desplegar la ventana de la carrera
-        """        
+        """
         self.hide()
         self.interfaz.mostrar_carrera(id_carrera)
- 
+
     def mostrar_apostadores(self):
         """
         Esta función informa a la interfaz para desplegar la ventana de la lista de apostadores
@@ -201,13 +202,13 @@ class Vista_lista_carreras(QWidget):
         self.hide()
         self.interfaz.mostrar_apostadores()
 
-    def mostrar_apuestas(self,id_carrera): 
+    def mostrar_apuestas(self,id_carrera):
         """
         Esta función informa a la interfaz para desplegar la ventana de la lista de apuestas
-        """        
+        """
         self.hide()
         self.interfaz.mostrar_apuestas(id_carrera)
-        
+
     def mostrar_ventana_crear_carrera(self):
         """
         Esta función informa a la interfaz para deplegar la ventana de la información de una carrera
@@ -217,20 +218,16 @@ class Vista_lista_carreras(QWidget):
 
 
 
-    def eliminar_carrera(self,indice_carrera): 
+    def eliminar_carrera(self,indice_carrera):
         """
         Esta función elimina una carrera tras solicitar una confirmación
         """
         mensaje_confirmacion=QMessageBox()
         mensaje_confirmacion.setIcon(QMessageBox.Question)
-        mensaje_confirmacion.setText("¿Esta seguro de que desea borrar esta carrera?\nRecuerde que esta acción es irreversible")        
+        mensaje_confirmacion.setText("¿Esta seguro de que desea borrar esta carrera?\nRecuerde que esta acción es irreversible")
         mensaje_confirmacion.setWindowTitle("¿Desea borrar esta carrera?")
         mensaje_confirmacion.setWindowIcon(QIcon("src/recursos/smallLogo.png"))
-        mensaje_confirmacion.setStandardButtons(QMessageBox.Yes | QMessageBox.No ) 
+        mensaje_confirmacion.setStandardButtons(QMessageBox.Yes | QMessageBox.No )
         respuesta=mensaje_confirmacion.exec_()
         if respuesta == QMessageBox.Yes:
              self.interfaz.eliminar_carrera(indice_carrera)
-    
-
-
-        
