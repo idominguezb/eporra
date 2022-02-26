@@ -9,58 +9,65 @@ class Logica():
         Base.metadata.create_all(engine)
         self.competidores = []
         # #Este constructor contiene los datos falsos para probar la interfaz
-        self.carreras = [{'Nombre':'Carrera 1', 'Competidores':[{'Nombre':'Juan Pablo Montoya', 'Probabilidad':0.15},\
-                                                                 {'Nombre':'Kimi Räikkönen', 'Probabilidad':0.2},\
-                                                                  {'Nombre':'Michael Schumacher', 'Probabilidad':0.65}],\
-                                                    'Abierta':True},
-                          {'Nombre':'Carrera 22222', 'Competidores':[{'Nombre':'Usain Bolt', 'Probabilidad':0.72},\
-                                                                 {'Nombre':'Lamont Marcell Jacobs', 'Probabilidad':0.13},\
-                                                                  {'Nombre':'Su Bingtian', 'Probabilidad':0.05},\
-                                                                  {'Nombre':'Robson da Silva', 'Probabilidad':0.1}],\
-                                                    'Abierta':True}]
-        self.apostadores = [{'Nombre':'Pepe Pérez'},{'Nombre':"Ana Andrade"},{'Nombre':"Aymara Castillo"}]
-        self.apuestas = [{'Apostador':'Pepe Pérez', 'Carrera':'Carrera 1', 'Valor':10, 'Competidor':'Juan Pablo Montoya'},\
-                        {'Apostador':'Ana Andrade', 'Carrera':'Carrera 1', 'Valor':25, 'Competidor':'Michael Schumacher'},\
-                        {'Apostador':'Aymara Castillo', 'Carrera':'Carrera 1', 'Valor':14, 'Competidor':'Juan Pablo Montoya'},\
-                        {'Apostador':'Aymara Castillo', 'Carrera':'Carrera 2', 'Valor':45, 'Competidor':'Usain Bolt'}]
-        self.ganancias = [{'Carrera':'Carrera 1', 'Ganancias':[('Pepe Pérez',13),('Ana Andrade',0), ('Aymara Castillo',15)], 'Ganancias de la casa': 4},\
-            {'Carrera':'Carrera 123', 'Ganancias':[('Pepe Pérez',32),('Ana Andrade',12), ('Aymara Castillo',34)], 'Ganancias de la casa': -10}]
+        self.carreras    = []
+        self.apostadores = []
+        self.apuestas    = []
+        self.ganancias   = []
 
     def dar_carreras(self):
-        # return session.query(Carrera).all()
-        return self.carreras.copy()
+        carreras = [elem.__dict__ for elem in session.query(Carrera).all()]
+        newCarreras = []
+
+        for carrera in carreras:
+            newCarreras.append({
+                "Nombre": carrera["Nombre"],
+                "Competidores": [],
+                "Abierta": True
+            })
+
+        return newCarreras
+        # return self.carreras.copy()
 
     def dar_carrera(self, id_carrera):
-        return self.carreras[id_carrera].copy()
+        carreras = [elem.__dict__ for elem in session.query(Carrera).all()]
+
+        return carreras[id_carrera].copy()
 
     def crear_carrera(self, nombre):
-        busqueda     = session.query(Carrera).filter(Carrera.nombre == nombre).all()
-        print("busqueda", nombre, busqueda)
-        competidores = self.competidores
-        competidoresCarrera = []
-        print("competidoresCarrera", competidores)
+        busqueda = [elem.__dict__ for elem in session.query(Carrera).filter(Carrera.Nombre == nombre).all()]
 
         if len(busqueda) == 0:
+            print("creando carrera")
+            carrera = Carrera(Nombre=nombre, Estado=Estado.ABIERTA)
+            session.add(carrera)
+            session.commit()
+            session.close()
+            return True
+        else:
+            return False
+
+    def asociar_competidores_carrera(self, nombre):
+        carrera = session.query(Carrera).filter(Carrera.Nombre == nombre).first()
+        competidores = self.competidores
+        competidoresCarrera = []
+
+        print("asociar_competidores_carrera", carrera,competidores)
+
+        if carrera:
             for item in competidores:
                 competidor = Competidor(
-                    nombre=item["nombre"],
-                    probabilidad=item["probabilidad"]
+                    Nombre=item["nombre"],
+                    Probabilidad=item["probabilidad"]
                 )
 
                 session.add(competidor)
                 competidoresCarrera.append(competidor)
 
-            carrera = Carrera(nombre=nombre, estado=Estado.ABIERTA)
-            session.add(carrera)
+            carrera.Competidores = competidoresCarrera
             session.commit()
-
-            carrera.competidores = competidoresCarrera
-            session.commit()
-
-            print(competidoresCarrera)
-            self.competidores = []
-
             session.close()
+
+            self.competidores = []
             return True
         else:
             return False
@@ -87,13 +94,17 @@ class Logica():
         del self.apostadores[id]
 
     def dar_competidores_carrera(self, id):
-        return self.carreras[id]['Competidores'].copy()
+        carreras = [elem.__dict__ for elem in session.query(Carrera).all()]
+        carrera_id = carreras[id]["id"]
+        competidores = [elem.__dict__ for elem in session.query(Competidor)
+            .filter(Competidor.Carrera_id == carrera_id).all()]
+
+        return competidores
 
     def dar_competidor(self, id_carrera, id_competidor):
         return self.carreras[id_carrera]['Competidores'][id_competidor].copy()
 
     def aniadir_competidor(self, nombre, probabilidad):
-        print("asdadsaasd")
         nombre = nombre.strip()
 
         if isinstance(probabilidad, str):
@@ -103,7 +114,7 @@ class Logica():
             return False
 
         self.competidores.append({"nombre": nombre, "probabilidad": probabilidad})
-        print("compe", self.competidores)
+        print("aniadir_competidor", self.competidores)
         return True
         # self.carreras[id]['Competidores'].append({'Nombre':nombre, 'Probabilidad':probabilidad})
 

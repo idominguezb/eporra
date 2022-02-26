@@ -168,6 +168,9 @@ class App_EPorra(QApplication):
             self.vista_carrera = Vista_carrera(self)
             self.vista_carrera.mostrar_competidores('',[])
 
+    def asociar_competidores_carrera(self, nombre):
+        self.logica.asociar_competidores_carrera(nombre)
+
     def aniadir_competidor(self, nombre, probabilidad):
         """
         Esta función inserta un nuevo competidor en una carrera
