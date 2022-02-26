@@ -204,6 +204,11 @@ class Vista_carrera(QWidget):
         """
         dialogo = Dialogo_crear_competidor()
         dialogo.exec_()
+
+        if not dialogo.texto_probabilidad.text().isnumeric():
+            QMessageBox.about(self, "Error validacion", "La probabilidad debe ser un numero")
+            dialogo.resultado = 0
+
         if dialogo.resultado == 1:
             self.competidores.append({'Nombre':dialogo.texto_nombre.text(), 'Probabilidad':float(dialogo.texto_probabilidad.text()), 'Estado':'Nueva'})
             self.mostrar_competidores(self.texto_nombre.text(), self.competidores)
