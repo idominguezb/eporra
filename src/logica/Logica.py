@@ -1,3 +1,6 @@
+from src.modelo.declarative_base import session
+from src.modelo.carrera import Carrera, Estado
+
 class Logica():
 
     def __init__(self):
@@ -17,7 +20,13 @@ class Logica():
     def crear_carrera(self, nombre):
         if len(nombre) == 0:
             return False
-        
+
+        carrera = Carrera(Nombre=nombre, Estado=Estado.ABIERTA)
+        session.add(carrera)
+        session.commit()
+        session.close()
+        return True
+
     def editar_carrera(self, id, nombre):
         self.carreras[id]['Nombre'] = nombre
 
