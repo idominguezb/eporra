@@ -15,9 +15,9 @@ class Logica():
         return self.carreras[id_carrera].copy()
 
     def crear_carrera(self, nombre):
-        self.carreras.append(
-            {'Nombre': nombre, 'Competidores': [], 'Abierta': True})
-
+        if len(nombre) == 0:
+            return False
+        
     def editar_carrera(self, id, nombre):
         self.carreras[id]['Nombre'] = nombre
 
