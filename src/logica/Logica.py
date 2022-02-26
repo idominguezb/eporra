@@ -20,6 +20,11 @@ class Logica():
     def crear_carrera(self, nombre):
         if len(nombre) == 0:
             return False
+        
+        busqueda = [elem.__dict__ for elem in session.query(Carrera).filter(Carrera.Nombre == nombre).all()]
+
+        if len(busqueda) > 0:
+            return False
 
         carrera = Carrera(Nombre=nombre, Estado=Estado.ABIERTA)
         session.add(carrera)

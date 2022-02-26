@@ -5,9 +5,11 @@ from src.logica.Logica import Logica
 
 class CarreraTestCase(unittest.TestCase):
 
-    def setUp(self):
+    @classmethod
+    def setUpClass(self):
         self.logica = Logica()
         Base.metadata.create_all(engine)
+
 
     def test_crear_carrera_con_nombre_en_blanco(self):
         nueva_carrera = self.logica.crear_carrera('')
@@ -21,5 +23,6 @@ class CarreraTestCase(unittest.TestCase):
         nueva_carrera = self.logica.crear_carrera('Carrera 1')
         self.assertEqual(nueva_carrera, False)
 
-    def tearDown(self):
+    @classmethod
+    def tearDownClass(self):
         Base.metadata.drop_all(engine)
