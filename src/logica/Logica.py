@@ -59,9 +59,13 @@ class Logica():
     def dar_competidor(self, id_carrera, id_competidor):
         return self.carreras[id_carrera]['Competidores'][id_competidor].copy()
 
-    def aniadir_competidor(self, id, nombre, probabilidad):
-        self.carreras[id]['Competidores'].append(
-            {'Nombre': nombre, 'Probabilidad': probabilidad})
+    def aniadir_competidor(self, nombre, probabilidad):
+        nombre = nombre.strip()
+
+        if len(nombre) == 0:
+            return False
+        
+        return True
 
     def editar_competidor(self, id_carrera, id_competidor, nombre, probabilidad):
         self.carreras[id_carrera]['Competidores'][id_competidor]['Nombre'] = nombre
