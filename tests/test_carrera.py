@@ -26,21 +26,21 @@ class CarreraTestCase(unittest.TestCase):
     def test_validar_suma_probabilidades_igual_uno(self):
         competidoresFail = [{
             "Nombre": "Michael Shummy",
-            "Probilidad": "1"
+            "Probabilidad": "1"
         },
         {
             "Nombre": "Ronny Stand",
-            "Probilidad": "0.8"
+            "Probabilidad": "0.8"
         }
         ]
 
         competidoresSuccess = [{
             "Nombre": "Michael Shummy",
-            "Probilidad": "0.5"
+            "Probabilidad": "0.5"
         },
         {
             "Nombre": "Ronny Stand",
-            "Probilidad": "0.5"
+            "Probabilidad": "0.5"
         }
         ]
 
