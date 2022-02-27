@@ -20,7 +20,7 @@ class Logica():
     def crear_carrera(self, nombre):
         if len(nombre) == 0:
             return False
-        
+
         busqueda = [elem.__dict__ for elem in session.query(Carrera).filter(Carrera.Nombre == nombre).all()]
 
         if len(busqueda) > 0:
@@ -115,6 +115,14 @@ class Logica():
         for ganancias in self.ganancias:
             if ganancias['Carrera'] == n_carrera:
                 return ganancias['Ganancias'], ganancias['Ganancias de la casa']
-    
+
     def validar_competidores(self, competidores):
-        return None
+        totalProbabilidad = 0
+
+        for item in competidores:
+            totalProbabilidad += float(item["Probabilidad"])
+
+        if not totalProbabilidad == 1:
+            return False
+
+        return True
