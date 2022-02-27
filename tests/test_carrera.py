@@ -49,6 +49,12 @@ class CarreraTestCase(unittest.TestCase):
         self.assertEqual(competidoresNoValidos, False)
         self.assertEqual(competidoresValidos, True)
 
+    def test_validar_que_el_nombre_del_competidor_no_esta_vacio(self):
+        competidoresFail    = self.logica.aniadir_competidor("   ", "1")
+        competidoresSuccess = self.logica.aniadir_competidor("Michael Shummy", "0.5")
+
+        self.assertEqual(competidoresFail, False)
+        self.assertEqual(competidoresSuccess, True)
 
     @classmethod
     def tearDownClass(self):
