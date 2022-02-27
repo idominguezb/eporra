@@ -57,14 +57,20 @@ class CarreraTestCase(unittest.TestCase):
         self.assertEqual(competidoresSuccess, True)
 
     def test_validar_probabilidad_entre_cero_y_uno(self):
-        competidoresFail    = self.logica.aniadir_competidor("Juan Pablo", "2")
-        competidoresSuccess = self.logica.aniadir_competidor("Michael Shummy", "0.5")
-        competidoresFailLessOne = self.logica.aniadir_competidor("Michael Shummy", "-0.7")
+        competidoresFail        = self.logica.aniadir_competidor("Juan Pablo", 2)
+        competidoresSuccess     = self.logica.aniadir_competidor("Michael Shummy", 0.5)
+        competidoresFailLessOne = self.logica.aniadir_competidor("Michael Shummy", -0.7)
 
         self.assertEqual(competidoresFail, False)
         self.assertEqual(competidoresSuccess, True)
         self.assertEqual(competidoresFailLessOne, False)
 
+    def test_asociar_competidores_a_carrera(self):
+        self.logica.crear_carrera('Carrera 3')
+        self.logica.aniadir_competidor("Michael Shummy", 1)
+
+        self.assertEqual(self.logica.asociar_competidores_carrera('Carrera 3'), True)
+        self.assertEqual(self.logica.asociar_competidores_carrera('Carrera 2'), False)
 
     @classmethod
     def tearDownClass(self):

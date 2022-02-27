@@ -59,11 +59,14 @@ class Logica():
     def dar_competidor(self, id_carrera, id_competidor):
         return self.carreras[id_carrera]['Competidores'][id_competidor].copy()
 
+    def asociar_competidores_carrera(self, nombre):
+        return None
+
     def aniadir_competidor(self, nombre, probabilidad):
         nombre = nombre.strip()
         probabilidad = float(probabilidad)
 
-        if len(nombre) == 0 or not isinstance(probabilidad, str) or (probabilidad < 0 and probabilidad > 1):
+        if len(nombre) == 0 or not isinstance(probabilidad, float) or (probabilidad < 0 or probabilidad > 1):
             return False
 
         self.competidores.append({"nombre": nombre, "probabilidad": probabilidad})
