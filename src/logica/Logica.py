@@ -61,10 +61,13 @@ class Logica():
 
     def aniadir_competidor(self, nombre, probabilidad):
         nombre = nombre.strip()
+        probabilidad = float(probabilidad)
 
-        if len(nombre) == 0:
+        if len(nombre) == 0 or not isinstance(probabilidad, str) or (probabilidad < 0 and probabilidad > 1):
             return False
-        
+
+        self.competidores.append({"nombre": nombre, "probabilidad": probabilidad})
+
         return True
 
     def editar_competidor(self, id_carrera, id_competidor, nombre, probabilidad):
